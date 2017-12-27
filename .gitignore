@@ -3,3 +3,4 @@ build
 dist
 django_khipu.egg-info
 *.pyc
+.coverage

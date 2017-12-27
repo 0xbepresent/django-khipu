@@ -2,7 +2,7 @@ from django.db import models
 
 from .constants import PAYMENT_STATUS, PAYMENT_STATUS_DETAIL, PAYMENT_METHOD
 from .signals import (
-        payment_successful, payment_amount_error, payment_receiver_id_error)
+    payment_successful, payment_amount_error, payment_receiver_id_error)
 
 
 class Payment(models.Model):

@@ -42,9 +42,9 @@ class Khipu(object):
                 msg = """
                     Necessary authentication for the service {} {} {}
                     """.format(
-                        service_name,
-                        settings.KHIPU_SECRET_KEY,
-                        settings.KHIPU_RECEIVER_ID)
+                    service_name,
+                    settings.KHIPU_SECRET_KEY,
+                    settings.KHIPU_RECEIVER_ID)
                 logger.error(msg)
                 raise KhipuError(msg)
         else:
