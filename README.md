@@ -2,6 +2,9 @@ Django-Khipu
 ==================
 
 Aplicacion de integracion entre Django y [Pagos Khipu](https://khipu.com/).
+[![Travis CI](https://travis-ci.org/misalabs/django-khipu.svg?branch=master)](https://travis-ci.org/felicesyforrados/django-webpay)
+[![Coverage Status](https://coveralls.io/repos/github/felicesyforrados/django-webpay/badge.svg?branch=master)](https://coveralls.io/github/felicesyforrados/django-webpay?branch=master)
+
 
 Configuración
 ==============
