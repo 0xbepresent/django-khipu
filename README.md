@@ -1,7 +1,7 @@
 Django-Khipu
 ==================
 [![Travis CI](https://travis-ci.org/misalabs/django-khipu.svg?branch=master)](https://travis-ci.org/misalabs/django-khipu)
-[![Coverage Status](https://coveralls.io/repos/github/misalabs/django-khipu/badge.svg?branch=master)](https://coveralls.io/github/misalabs/django-khipu?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/misalabs/django-khipu/badge.svg?branch=master&service=github)](https://coveralls.io/github/misalabs/django-khipu?branch=master)
 
 Aplicacion de integracion entre Django y [Pagos Khipu](https://khipu.com/).
 
