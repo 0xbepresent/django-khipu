@@ -31,23 +31,6 @@ class KhipuService(object):
         # Datos de respuesta del Servicio
         self.data_response = {}
 
-    def set_parameter(self, name, value):
-        """
-        Método para adjuntar el valor a uno de los elementos que
-        contempla el diccionario self.data. Esta función solo registrará los
-        valores que estan definidos en el arreglo
-        """
-        if 'name' in self.data:
-            self.data[name] = value
-
-    def set_parameters(self, values):
-        """
-        Método para guardar, desde un diccionario, todos los elementos que debe
-        tener el diccionario data
-        """
-        for name, value in values.iteritems():
-            self.set_parameter(name, value)
-
     def do_hash(self):
         """
         Genera el Hash que requiere khipu.
