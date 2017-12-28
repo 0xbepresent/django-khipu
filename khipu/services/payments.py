@@ -2,6 +2,7 @@
 from collections import OrderedDict
 
 from .common import KhipuService
+from ..exceptions import KhipuError
 from ..models import Payment
 
 
@@ -94,26 +95,29 @@ class CreatePayment(KhipuService):
         self.method = 'POST'
         self.path = 'payments'
         fields = [
-            'subject', 'currency', 'amount', 'transaction_id', 'custom',
-            'body', 'bank_id', 'return_url', 'cancel_url', 'picture_url',
-            'notify_url', 'contract_url', 'notify_api_version',
-            'expires_date', 'send_email', 'payer_name', 'payer_email',
-            'send_reminders', 'responsible_user_email',
-            'fixed_payer_personal_identifier', 'integrator_fee'
+            'amount', 'bank_id', 'body', 'cancel_url', 'contract_url',
+            'currency', 'custom', 'expires_date',
+            'fixed_payer_personal_identifier', 'integrator_fee',
+            'notify_api_version', 'notify_url', 'payer_email', 'payer_name',
+            'picture_url', 'responsible_user_email', 'return_url',
+            'send_email', 'send_reminders', 'subject', 'transaction_id'
         ]
-        fields.sort()
-        self.data = OrderedDict()
-        for field in fields:
-            if kwargs.get(field):
-                if type(kwargs.get(field)) == bool:
-                    self.data[field] = str(kwargs.get(field)).lower()
-                else:
-                    self.data[field] = kwargs.get(field)
+        if kwargs.get('amount') and kwargs.get('currency')\
+                and kwargs.get('subject'):
+            self.data = OrderedDict()
+            for field in fields:
+                if kwargs.get(field):
+                    if type(kwargs.get(field)) == bool:
+                        self.data[field] = str(kwargs.get(field)).lower()
+                    else:
+                        self.data[field] = kwargs.get(field)
+        else:
+            raise KhipuError('Amount, currency and subject are necessary.')
 
         self.request()  # Llamar al servicio Khipu
 
         # Con la data respuesta creamos data en el modelo.
-        data_to_model = self.data.copy()
+        data_to_model = kwargs.copy()
         data_to_model.update(self.data_response)
         Payment.objects.create(**data_to_model)
 
@@ -232,6 +236,10 @@ class GetPayment(KhipuService):
             receiver_id, secret, service_name, **kwargs)
         self.method = 'GET'
         self.path = 'payments'
-        self.data = {"notification_token": kwargs.get('notification_token')}
+        notification_token = kwargs.get('notification_token')
+        if notification_token:
+            self.data = {"notification_token": notification_token}
+        else:
+            raise KhipuError('notification_token field is necessary.')
 
         self.request()  # Llamar al servicio Khipu
