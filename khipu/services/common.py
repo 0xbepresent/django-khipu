@@ -5,6 +5,8 @@ import logging
 import requests
 import urllib
 
+from requests.exceptions import RequestException, Timeout, ConnectionError
+
 from ..exceptions import KhipuError
 
 KHIPU_API_VERSION = '2.0'
@@ -64,12 +66,26 @@ class KhipuService(object):
         Regust que consumira el API por un metodo en especifico.
         """
         data_send_key = 'params' if self.method == 'GET' else 'data'
-        r = requests.request(
-            method=self.method,
-            url=self.get_url_service(),
-            headers=self.get_headers(),
-            **{data_send_key: self.data}
-        )
+        try:
+            r = requests.request(
+                method=self.method,
+                url=self.get_url_service(),
+                headers=self.get_headers(),
+                **{data_send_key: self.data}
+            )
+        except RequestException:
+            msg = 'Error RequestException. Path: {}. Data: {}.'.format(
+                self.get_url_service(), self.data)
+            raise KhipuError(msg)
+        except Timeout:
+            msg = "Error Timeout. Path: {}. Data: {}.".format(
+                self.get_url_service(), self.data)
+            raise KhipuError(msg)
+        except ConnectionError:
+            msg = "Error ConnectionError. Path: {}. Data: {}.".format(
+                self.get_url_service(), self.data)
+            raise KhipuError(msg)
+
         if r.status_code in [200, 201]:
             self.data_response = r.json()
         else:
