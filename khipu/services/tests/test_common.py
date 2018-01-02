@@ -63,11 +63,20 @@ class TestCommon(TestCase):
             mock_requests.return_value.status_code = 400
             ks.request()
 
-        for conn in [RequestException, Timeout, ConnectionError]:
-            with self.assertRaises(KhipuError),\
-                    mock.patch.object(requests, 'request') as mock_requests:
-                mock_requests.side_effect = conn
-                ks.request()
+        with self.assertRaises(KhipuError),\
+                mock.patch.object(requests, 'request') as mock_requests:
+            mock_requests.side_effect = RequestException
+            ks.request()
+
+        with self.assertRaises(KhipuError),\
+                mock.patch.object(requests, 'request') as mock_requests:
+            mock_requests.side_effect = Timeout
+            ks.request()
+
+        with self.assertRaises(KhipuError),\
+                mock.patch.object(requests, 'request') as mock_requests:
+            mock_requests.side_effect = ConnectionError
+            ks.request()
 
         # Test funcion response
         with mock.patch.object(requests, 'request') as mock_requests:
