@@ -41,7 +41,8 @@ y usarlas donde quieras.
 >> result = khipu.service('CreatePayment', **{
     'subject': 'Esto es un pago de pruebas',
     'currency': 'CLP',
-    'amount': '3000.0000'
+    'amount': '3000.0000',
+    'notify_url': request.build_absolute_uri(reverse('khipu_verificacion'))
    })
 >> {u'payment_id': u'weyayhnbmker', u'app_url': u'khipu:///pos/weyayhnbmker', u'ready_for_terminal': False, u'payment_url': u'https://khipu.com/payment/info/weyayhnbmker', u'simplified_transfer_url': u'https://app.khipu.com/payment/simplified/weyayhnbmker', u'transfer_url': u'https://khipu.com/payment/manual/weyayhnbmker'}
 ```
@@ -55,7 +56,8 @@ Usar el formulario pre-armado para crear botones facilmente.
 >> form_payment_khipu = KhipuCreatePaymentForm(**{
         'subject': 'Esto es un pago de pruebas via Django-Form',
         'currency': 'CLP',
-        'amount': '6000.0000'
+        'amount': '6000.0000',
+        'notify_url': request.build_absolute_uri(reverse('khipu_verificacion'))
     })
     return render(request, 'carro.html', {'form_payment_khipu': form_payment_khipu})
 ```
