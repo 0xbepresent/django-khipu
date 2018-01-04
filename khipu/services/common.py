@@ -73,16 +73,16 @@ class KhipuService(object):
                 headers=self.get_headers(),
                 **{data_send_key: self.data}
             )
-        except RequestException:
-            msg = 'Error RequestException. Path: {}. Data: {}.'.format(
-                self.get_url_service(), self.data)
-            raise KhipuError(msg)
         except Timeout:
             msg = "Error Timeout. Path: {}. Data: {}.".format(
                 self.get_url_service(), self.data)
             raise KhipuError(msg)
         except ConnectionError:
             msg = "Error ConnectionError. Path: {}. Data: {}.".format(
+                self.get_url_service(), self.data)
+            raise KhipuError(msg)
+        except RequestException:
+            msg = 'Error RequestException. Path: {}. Data: {}.'.format(
                 self.get_url_service(), self.data)
             raise KhipuError(msg)
 
