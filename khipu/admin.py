@@ -14,4 +14,5 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = ["payment_id"]
     list_per_page = 100
 
+
 admin.site.register(Payment, PaymentAdmin)
