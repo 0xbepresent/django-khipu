@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .api import Khipu
+from .exceptions import KhipuError
 from .models import Payment
 
 logger = logging.getLogger(__name__)
@@ -48,9 +49,14 @@ def verificacion(request):
     logger.debug("Informacion que nos envia Khipu {}".format(request.POST))
     notification_token = request.POST.get('notification_token')
     khipu = Khipu()
-    result = khipu.service(
-        'GetPaymentInfo', **{'notification_token': notification_token})
-    logger.debug("Informacion del servicio GetPaymentInfo {}".format(result))
+    try:
+        result = khipu.service(
+            'GetPaymentInfo', **{'notification_token': notification_token})
+        logger.debug("Informacion del servicio GetPaymentInfo {}".format(
+            result))
+    except KhipuError, e:
+        logger.error("GetPaymentInfo Communication error {}".format(e))
+        return HttpResponse(status=400)
     try:
         set_khipu_model(**result)  # Guardar todo lo que Khipu nos envia.
     except Payment.DoesNotExist:

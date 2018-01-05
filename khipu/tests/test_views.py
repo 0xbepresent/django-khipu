@@ -4,12 +4,19 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from ..exceptions import KhipuError
 from ..models import Payment
 
 
 class TestViews(TestCase):
 
     def test_verificacion(self):
+        # Test para cuando hay un error con la comunicacion del servicio.
+        with mock.patch('khipu.api.Khipu.service') as mock_service:
+            mock_service.side_effect = KhipuError('testing')
+            response = self.client.post(reverse("khipu_verificacion"), data={})
+            self.assertTrue(response.status_code == 400)
+
         # Test para cuando hay un error en el guardado del modelo.
         # El payment_id no existe
         with mock.patch('khipu.api.Khipu.service') as mock_service:
