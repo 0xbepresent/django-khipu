@@ -17,7 +17,7 @@ class TestPayments(TestCase):
         with self.assertRaises(KhipuError):
             g = GetPayment(
                 receiver_id=1211, secret='asas22', service_name='GetPayment')
-            self.assertDictEqual(g.response(), {})
+            self.assertIsNone(g.response())
 
         # Enviamos token, se recibe correctamente en la data.
         with mock.patch(
