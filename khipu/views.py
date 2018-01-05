@@ -57,8 +57,4 @@ def verificacion(request):
     except Payment.DoesNotExist:
         logger.error("Payment does not exist. Data {}".format(result))
         return HttpResponse(status=400)
-    except Exception, e:
-        msg = "An error ocurred. Exception: {} Trace: {}".format(
-            e, traceback.format_exc())
-        logger.error(msg)
     return HttpResponse()
