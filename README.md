@@ -5,6 +5,11 @@ Django-Khipu
 
 Aplicacion de integracion entre Django y [Pagos Khipu](https://khipu.com/).
 
+Instalación
+===========
+```
+$ pip install django-khipu
+```
 
 Configuración
 ==============
